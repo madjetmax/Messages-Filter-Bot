@@ -25,6 +25,7 @@ class MessageFilter(Filter):
 @router.message(MessageFilter())
 @router.edited_message(MessageFilter())
 async def check_message(message: Message):
+    user = message.from_user
     parse_result = parse_text(
         message.text, 
         # triggers
@@ -39,6 +40,7 @@ async def check_message(message: Message):
     text = f"""
 prsed_text: {parsed_text}
 triggered_by: {triggered_by}
+user: {user.full_name}
 """
     await message.answer(text)
     # delete message
