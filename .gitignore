@@ -4,5 +4,6 @@ __pycache__/
 venv
 alembic.ini
 migrations
+tests.py
 
 *.db
