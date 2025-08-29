@@ -73,3 +73,4 @@ def check_trigger(text: str, keywords: str, names: list[str], string_phrases: li
             return True
 
     return False
+

@@ -30,9 +30,10 @@ async def check_sent_message(message: Message):
         # triggers
         [kw[1] for kw in config.KEYWORDS_TRIGGERS],
         [name[1] for name in config.NAMES_TRIGGERS],
-        [phrase[1] for phrase in config.PHRASES_TRIGGERS]
+        [phrase[2] for phrase in config.PHRASES_TRIGGERS]
     )
     
+
     # delete message
     if triggered:
         await message.delete()
