@@ -9,6 +9,7 @@ from fsm_states import admin as states
 from keydoards import admin as kbs
 import database as db
 from middlewares.admin import HandlersMiddleware
+from utils.parse_text import normalize
 
 router = Router()
 router.message.middleware.register(HandlersMiddleware())
@@ -92,6 +93,11 @@ async def new_phrases(message: Message, state: FSMContext):
             new_phrase = await db.add_phrase(phrase)
             # add to config 
             config.PHRASES_TRIGGERS.append(
-                (new_phrase.id, new_phrase.text)
+                (
+                    new_phrase.id, new_phrase.text,
+                    # collect phrase into full string
+                    "".join(normalize(word) for word in new_phrase.text.split(" "))
+                )
             )
+            print(config.PHRASES_TRIGGERS)
     await state.clear()

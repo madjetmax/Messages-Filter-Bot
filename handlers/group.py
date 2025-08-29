@@ -4,7 +4,7 @@ from aiogram.filters import Filter
 
 from config import *
 import config
-from utils.parse_text import has_trigger
+from utils.parse_text import check_trigger
 
 router = Router()
 
@@ -25,7 +25,7 @@ class MessageFilter(Filter):
 # * if sent
 @router.message(MessageFilter())
 async def check_sent_message(message: Message):
-    triggered = has_trigger(
+    triggered = check_trigger(
         message.text, 
         # triggers
         [kw[1] for kw in config.KEYWORDS_TRIGGERS],
@@ -40,12 +40,12 @@ async def check_sent_message(message: Message):
 # * if edited
 @router.edited_message(MessageFilter())
 async def check_edited_message(message: Message):
-    triggered = has_trigger(
+    triggered = check_trigger(
         message.text, 
         # triggers
         [kw[1] for kw in config.KEYWORDS_TRIGGERS],
         [name[1] for name in config.NAMES_TRIGGERS],
-        [phrase[1] for phrase in config.PHRASES_TRIGGERS]
+        [phrase[2] for phrase in config.PHRASES_TRIGGERS]
     )
     
     # delete message

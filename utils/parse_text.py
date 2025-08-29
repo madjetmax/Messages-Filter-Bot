@@ -4,7 +4,6 @@ import itertools
 from typing import Any
 from config import *
 
-# Initialize analyzer
 morph = pymorphy3.MorphAnalyzer(lang="ru")
 
 def normalize(word: str) -> str:
@@ -30,7 +29,7 @@ def has_phrase(normalized_words: list[str], string_phrase: str) -> bool:
         return True  
     return False
 
-def has_trigger(text: str, keywords: str, names: list[str], phrases: list[str]) -> bool:
+def check_trigger(text: str, keywords: str, names: list[str], string_phrases: list[str]) -> bool:
     # clear text, parse and normalize words
     text = text.lower()
     raw_words: list = re.findall(r"\w+", text, flags=re.UNICODE)
@@ -63,17 +62,12 @@ def has_trigger(text: str, keywords: str, names: list[str], phrases: list[str]) 
         if in_text:
             return True
     
-    #  phrases
+    # phrases
     # normalize text
     raw_normalized_words = list(map(normalize_full, raw_words))
     normalized_words = [words[0] for words in raw_normalized_words]
 
-    for phrase in phrases:
-        # set all phrase words as a full string
-        string_phrase = ""
-        for word in phrase.split(" "):
-            string_phrase += normalize(word)
-
+    for string_phrase in string_phrases:
         contain_phrase: bool = has_phrase(normalized_words, string_phrase)
         if contain_phrase:
             return True

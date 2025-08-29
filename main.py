@@ -8,6 +8,7 @@ import handlers
 import callbacks
 import database as db
 from database import engine as db_engine
+from utils.parse_text import normalize
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -17,15 +18,26 @@ dp.include_routers(
     callbacks.router,
 )
 
+async def collect_triggers():
+    config.KEYWORDS_TRIGGERS = [(kw.id, kw.word) for kw in await db.get_all_keywords()]    
+    config.NAMES_TRIGGERS = [(name.id, name.name) for name in await db.get_all_trigger_names()]    
+    config.PHRASES_TRIGGERS = [
+        (
+            phrase.id, phrase.text, 
+            # collect phrase into full string
+            "".join(normalize(word) for word in phrase.text.split(" "))
+        ) 
+        for phrase in await db.get_all_phrases()
+    ]   
+    print(config.PHRASES_TRIGGERS)
+
+
 async def main():
     # database
     await db_engine.create_db()
 
-    # collect triggers in config
-    config.KEYWORDS_TRIGGERS = [(kw.id, kw.word) for kw in await db.get_all_keywords()]    
-    config.NAMES_TRIGGERS = [(name.id, name.name) for name in await db.get_all_trigger_names()]    
-    config.PHRASES_TRIGGERS = [(phrase.id, phrase.text) for phrase in await db.get_all_phrases()]   
-
+    await collect_triggers()
+    
     # start bot polling
     print('bot launched')
     # skip updates on start
