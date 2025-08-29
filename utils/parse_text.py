@@ -32,7 +32,7 @@ def has_phrase(normalized_words: list[str], string_phrase: str) -> bool:
 
 def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -> dict[str: dict]:
     # clear text, parse and normalize words
-    raw_words: list = re.findall(r"\w+", text, flags=re.UNICODE)
+    raw_words: list = list(map(str.lower, re.findall(r"\w+", text, flags=re.UNICODE)))
     raw_normalized_words = list(map(normalize_full, raw_words))
     full_normalized_words = list(itertools.chain.from_iterable(raw_normalized_words))
 
