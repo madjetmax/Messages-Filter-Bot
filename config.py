@@ -5,8 +5,8 @@ load_dotenv()
 
 # bot
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMINS = json.loads(os.getenv("ADMINS")) # ids
-USERS_EXCEPTIONS = json.loads(os.getenv("USERS_EXCEPTIONS")) # ids
+ADMINS = set(json.loads(os.getenv("ADMINS"))) # ids
+USERS_EXCEPTIONS = set(json.loads(os.getenv("USERS_EXCEPTIONS"))) # ids
 GROUP_ID = int(os.getenv("GROUP_ID"))
 
 # dababase

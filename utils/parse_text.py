@@ -30,26 +30,20 @@ def has_phrase(normalized_words: list[str], string_phrase: str) -> bool:
         return True  
     return False
 
-def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -> dict[str: dict]:
+def has_trigger(text: str, keywords: str, names: list[str], phrases: list[str]) -> bool:
     # clear text, parse and normalize words
     text = text.lower()
     raw_words: list = re.findall(r"\w+", text, flags=re.UNICODE)
-    raw_normalized_words = list(map(normalize_full, raw_words))
-    full_normalized_words = list(itertools.chain.from_iterable(raw_normalized_words))
-
-    normalized_words = [words[0] for words in raw_normalized_words]
-
-    parse_results: dict[str, dict] = {
-        "parsed_text": full_normalized_words,
-        "triggered_dy": None,
-    }
+    
+    # * for noramalized words
+    # full_normalized_words = list(itertools.chain.from_iterable(raw_normalized_words))
+    
     # * checks
     # keywords
     for keyword in keywords:
         in_text = keyword.lower() in raw_words
         if in_text:
-            parse_results["triggered_dy"] = f'keyword: {keyword.lower()}'
-            return parse_results
+            return True
         
         # * with normalize
         # normalized_keyword_options = normalize_full(keyword)
@@ -67,10 +61,13 @@ def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -
     for name in names:
         in_text = name.lower() in text
         if in_text:
-            parse_results["triggered_dy"] = f'name: {name.lower()}'
-            return parse_results
-
+            return True
+    
     #  phrases
+    # normalize text
+    raw_normalized_words = list(map(normalize_full, raw_words))
+    normalized_words = [words[0] for words in raw_normalized_words]
+
     for phrase in phrases:
         # set all phrase words as a full string
         string_phrase = ""
@@ -78,10 +75,7 @@ def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -
             string_phrase += normalize(word)
 
         contain_phrase: bool = has_phrase(normalized_words, string_phrase)
-
         if contain_phrase:
-            parse_results["triggered_dy"] = f'phrase: {phrase}'
-            return parse_results
-            
+            return True
 
-    return parse_results
+    return False

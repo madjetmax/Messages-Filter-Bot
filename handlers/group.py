@@ -4,7 +4,7 @@ from aiogram.filters import Filter
 
 from config import *
 import config
-from utils.parse_text import parse_text
+from utils.parse_text import has_trigger
 
 router = Router()
 
@@ -21,28 +21,33 @@ class MessageFilter(Filter):
             and message.from_user.id not in USERS_EXCEPTIONS 
         )
 
-# check message 
+# check message
+# * if sent
 @router.message(MessageFilter())
-@router.edited_message(MessageFilter())
-async def check_message(message: Message):
-    user = message.from_user
-    parse_result = parse_text(
+async def check_sent_message(message: Message):
+    triggered = has_trigger(
         message.text, 
         # triggers
         [kw[1] for kw in config.KEYWORDS_TRIGGERS],
         [name[1] for name in config.NAMES_TRIGGERS],
         [phrase[1] for phrase in config.PHRASES_TRIGGERS]
     )
-    # get result
-    parsed_text = parse_result["parsed_text"]    
-    triggered_by = parse_result["triggered_dy"]
-    # send message  
-    text = f"""
-prsed_text: {parsed_text}
-triggered_by: {triggered_by}
-user: {user.full_name}
-"""
-    await message.answer(text)
+    
     # delete message
-    if triggered_by:
+    if triggered:
+        await message.delete()
+
+# * if edited
+@router.edited_message(MessageFilter())
+async def check_edited_message(message: Message):
+    triggered = has_trigger(
+        message.text, 
+        # triggers
+        [kw[1] for kw in config.KEYWORDS_TRIGGERS],
+        [name[1] for name in config.NAMES_TRIGGERS],
+        [phrase[1] for phrase in config.PHRASES_TRIGGERS]
+    )
+    
+    # delete message
+    if triggered:
         await message.delete()
