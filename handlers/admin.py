@@ -99,5 +99,4 @@ async def new_phrases(message: Message, state: FSMContext):
                     "".join(normalize(word) for word in new_phrase.text.split(" "))
                 )
             )
-            print(config.PHRASES_TRIGGERS)
     await state.clear()

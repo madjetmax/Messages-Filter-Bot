@@ -29,8 +29,6 @@ async def collect_triggers():
         ) 
         for phrase in await db.get_all_phrases()
     ]   
-    print(config.PHRASES_TRIGGERS)
-
 
 async def main():
     # database
