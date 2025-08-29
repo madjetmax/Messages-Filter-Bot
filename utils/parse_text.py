@@ -32,7 +32,8 @@ def has_phrase(normalized_words: list[str], string_phrase: str) -> bool:
 
 def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -> dict[str: dict]:
     # clear text, parse and normalize words
-    raw_words: list = list(map(str.lower, re.findall(r"\w+", text, flags=re.UNICODE)))
+    text = text.lower()
+    raw_words: list = re.findall(r"\w+", text, flags=re.UNICODE)
     raw_normalized_words = list(map(normalize_full, raw_words))
     full_normalized_words = list(itertools.chain.from_iterable(raw_normalized_words))
 
@@ -45,9 +46,9 @@ def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -
     # * checks
     # keywords
     for keyword in keywords:
-        in_text = keyword in raw_words
+        in_text = keyword.lower() in raw_words
         if in_text:
-            parse_results["triggered_dy"] = f'keyword: {keyword}'
+            parse_results["triggered_dy"] = f'keyword: {keyword.lower()}'
             return parse_results
         
         # * with normalize
@@ -64,9 +65,9 @@ def parse_text(text: str, keywords: str, names: list[str], phrases: list[str]) -
     
     # names
     for name in names:
-        in_text = name in text
+        in_text = name.lower() in text
         if in_text:
-            parse_results["triggered_dy"] = f'name: {name}'
+            parse_results["triggered_dy"] = f'name: {name.lower()}'
             return parse_results
 
     #  phrases
