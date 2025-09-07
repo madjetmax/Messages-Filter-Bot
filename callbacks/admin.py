@@ -115,6 +115,7 @@ async def delete_keyword(call: CallbackQuery):
         for i, kw in enumerate(config.KEYWORDS_TRIGGERS):
             if kw[0] == keyword_id:
                 config.KEYWORDS_TRIGGERS.pop(i)
+                config.CLEAR_KEYWORDS_TRIGGERS.pop(i)
                 break
     except: 
         pass
@@ -204,6 +205,7 @@ async def delete_name(call: CallbackQuery):
         for i, name in enumerate(config.NAMES_TRIGGERS):
             if name[0] == name_id:
                 config.NAMES_TRIGGERS.pop(i)
+                config.CLEAR_NAMES_TRIGGERS.pop(i)
                 break
     except: 
         pass
@@ -293,6 +295,7 @@ async def delete_phrase(call: CallbackQuery):
         for i, phrase in enumerate(config.PHRASES_TRIGGERS):
             if phrase[0] == phrase_id:
                 config.PHRASES_TRIGGERS.pop(i)
+                config.CLEAR_PHRASES_TRIGGERS.pop(i)
                 break
     except: 
         pass

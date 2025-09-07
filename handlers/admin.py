@@ -47,6 +47,9 @@ async def new_keywords(message: Message, state: FSMContext):
             config.KEYWORDS_TRIGGERS.append(
                 (new_keyword.id, new_keyword.word)
             )
+    # set clear
+    config.CLEAR_KEYWORDS_TRIGGERS = [kw[1] for kw in config.KEYWORDS_TRIGGERS]
+
     await state.clear()
 
 # new trigger name
@@ -71,6 +74,9 @@ async def new_trigger_names(message: Message, state: FSMContext):
             config.NAMES_TRIGGERS.append(
                 (new_name.id, new_name.name)
             )
+    # set clear
+    config.CLEAR_NAMES_TRIGGERS = [name[1] for name in config.NAMES_TRIGGERS]
+
     await state.clear()
 
 # new phrases
@@ -99,4 +105,7 @@ async def new_phrases(message: Message, state: FSMContext):
                     "".join(normalize(word) for word in new_phrase.text.split(" "))
                 )
             )
+    # set clear
+    config.CLEAR_PHRASES_TRIGGERS = [phrase[2] for phrase in config.PHRASES_TRIGGERS]
+
     await state.clear()

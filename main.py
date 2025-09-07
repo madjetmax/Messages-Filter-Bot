@@ -28,8 +28,13 @@ async def collect_triggers():
             "".join(normalize(word) for word in phrase.text.split(" "))
         ) 
         for phrase in await db.get_all_phrases()
-    ]   
+    ]  
 
+    # collect clear
+    config.CLEAR_KEYWORDS_TRIGGERS = [kw[1] for kw in config.KEYWORDS_TRIGGERS]
+    config.CLEAR_NAMES_TRIGGERS    = [name[1] for name in config.NAMES_TRIGGERS]
+    config.CLEAR_PHRASES_TRIGGERS  = [phrase[2] for phrase in config.PHRASES_TRIGGERS]
+    
 async def main():
     # database
     await db_engine.create_db()

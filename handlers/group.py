@@ -21,32 +21,31 @@ class MessageFilter(Filter):
             and message.from_user.id not in USERS_EXCEPTIONS 
         )
 
-# check message
-# * if sent
+# * check message
+# if sent
 @router.message(MessageFilter())
 async def check_sent_message(message: Message):
     triggered = check_trigger(
         message.text, 
         # triggers
-        [kw[1] for kw in config.KEYWORDS_TRIGGERS],
-        [name[1] for name in config.NAMES_TRIGGERS],
-        [phrase[2] for phrase in config.PHRASES_TRIGGERS]
+        config.CLEAR_KEYWORDS_TRIGGERS,
+        config.CLEAR_NAMES_TRIGGERS,
+        config.CLEAR_PHRASES_TRIGGERS,
     )
-    
 
     # delete message
     if triggered:
         await message.delete()
 
-# * if edited
+# if edited
 @router.edited_message(MessageFilter())
 async def check_edited_message(message: Message):
     triggered = check_trigger(
         message.text, 
         # triggers
-        [kw[1] for kw in config.KEYWORDS_TRIGGERS],
-        [name[1] for name in config.NAMES_TRIGGERS],
-        [phrase[2] for phrase in config.PHRASES_TRIGGERS]
+        config.CLEAR_KEYWORDS_TRIGGERS,
+        config.CLEAR_NAMES_TRIGGERS,
+        config.CLEAR_PHRASES_TRIGGERS,
     )
     
     # delete message

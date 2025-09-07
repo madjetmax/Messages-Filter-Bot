@@ -69,6 +69,11 @@ KEYWORDS_TRIGGERS = []
 NAMES_TRIGGERS = []
 PHRASES_TRIGGERS = []
 
+CLEAR_KEYWORDS_TRIGGERS = []
+CLEAR_NAMES_TRIGGERS = []
+CLEAR_PHRASES_TRIGGERS = []
+
+
 LETTER_MATCH = {
     "a": "а", "@": "а",
     "o": "о", "0": "о", "ö": "о",
