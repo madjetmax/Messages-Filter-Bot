@@ -10,6 +10,7 @@ import database as db
 from database.models import Keyword, TriggerName, Phrase
 from middlewares.admin import CallbacksMiddleware
 
+
 router = Router()
 router.callback_query.middleware.register(CallbacksMiddleware())
 
@@ -298,4 +299,40 @@ async def delete_phrase(call: CallbackQuery):
                 config.CLEAR_PHRASES_TRIGGERS.pop(i)
                 break
     except: 
+        pass
+
+# ban user
+@router.callback_query(F.data.startswith("ban_user_"))
+async def ban_user(call: CallbackQuery):
+    message = call.message
+    bot = message.bot
+
+    ban_user_id = int(call.data.replace("ban_user_", ""))
+
+    # edit message 
+    kb = kbs.get_unban_user_kb(ban_user_id)
+    await message.edit_reply_markup(reply_markup=kb)
+
+    # ban
+    try:
+        await bot.ban_chat_member(GROUP_ID, ban_user_id)
+    except:
+        pass
+
+# unban user
+@router.callback_query(F.data.startswith("unban_user_"))
+async def unban_user(call: CallbackQuery):
+    message = call.message
+    bot = message.bot
+
+    unban_user_id = int(call.data.replace("unban_user_", ""))
+
+    # edit message 
+    kb = kbs.get_ban_user_kb(unban_user_id)
+    await message.edit_reply_markup(reply_markup=kb)
+
+    # unban
+    try:
+        await bot.unban_chat_member(GROUP_ID, unban_user_id)    
+    except:
         pass

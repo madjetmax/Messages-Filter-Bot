@@ -6,6 +6,7 @@ load_dotenv()
 # bot
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMINS = set(json.loads(os.getenv("ADMINS"))) # ids
+SEND_LOGS_USERS = set(json.loads(os.getenv("SEND_LOGS_USERS"))) # ids
 USERS_EXCEPTIONS = set(json.loads(os.getenv("USERS_EXCEPTIONS"))) # ids
 GROUP_ID = int(os.getenv("GROUP_ID"))
 
@@ -15,6 +16,9 @@ DB_URL = f"sqlite+aiosqlite:///{DB_NAME}"
 DB_LOGGING = False
 
 MODELS_TIME_ZONE = "UTC"
+
+# dates and time 
+DATETIME_TIME_ZONE = "Europe/Ljubljana"
 
 # admin menu texts
 ADMIN_MENU_TITILE = "Админка"
@@ -63,6 +67,22 @@ ADD_PHRASES_TITLE_EMPTY = """
 # todo ---------------------------
 DELETE_BTN = "Удилить ❌"
 BACK_BTN = "Назад ⬅️"
+BAN_USER_BTN = "Заблокировать"
+UNBAN_USER_BTN = "Разблокировать"
+
+TRIGGERED_MESSAGE_LOG = """
+<strong>Сообщение от</strong>: {username}
+<strong>текст</strong>: {text}
+
+<strong>отправлено</strong>: {date_sent}
+"""
+
+EDITED_TRIGGERED_MESSAGE_LOG = """
+<strong>Сообщение от</strong>: {username}
+<strong>текст</strong>: {text}
+
+<strong>изменено</strong>: {date_edited}
+"""
 
 # triggers and text parsing
 KEYWORDS_TRIGGERS = []

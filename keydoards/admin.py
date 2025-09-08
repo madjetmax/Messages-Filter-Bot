@@ -58,3 +58,19 @@ def get_delete_phrase_kb(phrase_id: int, add_back_btn: bool) -> InlineKeyboardMa
         rows.append([InlineKeyboardButton(text=BACK_BTN, callback_data="ad_back_phrases")])
 
     return InlineKeyboardMarkup(inline_keyboard=rows)
+
+# * ban user
+def get_ban_user_kb(user_id: int) -> InlineKeyboardMarkup:
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=BAN_USER_BTN, callback_data=f"ban_user_{user_id}")]
+    ]) 
+
+    return kb
+
+# * unban user
+def get_unban_user_kb(user_id: int) -> InlineKeyboardMarkup:
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=UNBAN_USER_BTN, callback_data=f"unban_user_{user_id}")]
+    ]) 
+
+    return kb
