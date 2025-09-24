@@ -51,11 +51,16 @@ async def check_sent_message(message: Message):
         now: str = datetime.datetime.now(ZoneInfo(DATETIME_TIME_ZONE)).strftime("%H:%M.%S %d-%m-%Y")
         message_text = limit_string(message.text)
 
-        first_name = user.first_name.capitalize() if user.first_name else ""
-        last_name = user.last_name.capitalize() if user.last_name else ""
+        if user.full_name:
+            user_link = f"@{user.full_name}"
+        else:
+            first_name = user.first_name.capitalize() if user.first_name else ""
+            last_name = user.last_name.capitalize() if user.last_name else ""
+
+            user_link = f'<a href="tg://user?id={user.id}">{first_name} {last_name}</a>'
 
         text = TRIGGERED_MESSAGE_LOG.format(
-            username=f'<a href="tg://user?id={user.id}">{first_name} {last_name}</a>',
+            username=user_link,
             text=message_text,
             date_sent=now
         )
@@ -87,11 +92,17 @@ async def check_edited_message(message: Message):
         now: str = datetime.datetime.now(ZoneInfo(DATETIME_TIME_ZONE)).strftime("%H:%M.%S %d-%m-%Y")
         message_text = limit_string(message.text)
 
-        first_name = user.first_name.capitalize() if user.first_name else ""
-        last_name = user.last_name.capitalize() if user.last_name else ""
+        if user.full_name:
+            user_link = f"@{user.full_name}"
+        else:
+            first_name = user.first_name.capitalize() if user.first_name else ""
+            last_name = user.last_name.capitalize() if user.last_name else ""
+
+            user_link = f'<a href="tg://user?id={user.id}">{first_name} {last_name}</a>'
+
 
         text = EDITED_TRIGGERED_MESSAGE_LOG.format(
-            username=f'<a href="tg://user?id={user.id}">{first_name} {last_name}</a>',
+            username=user_link,
             text=message_text,
             date_edited=now
         )
